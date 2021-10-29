@@ -13,5 +13,6 @@ class CustomerDataInitializer(val repository: CustomerRepository) : ApplicationR
     override fun run(args: ApplicationArguments?) {
         val names = Flux.just("John", "Jack", "Mary", "Jane", "Jill", "Joe")
         val customers = names.map { name -> Customer(0, name) }
+        customers.flatMap { customer -> repository.save(customer) }.subscribe { customer -> println(customer) }
     }
 }
